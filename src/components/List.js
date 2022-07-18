@@ -23,7 +23,7 @@ const List = ({
         }
           return (
           <Item
-            key={currentData}
+            key={id}
             type={type}
             data={currentData}
             onAdd={onAdd}
