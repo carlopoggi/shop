@@ -67,7 +67,7 @@ const Shop = () => {
       
       let res = {}
       _forEach(keys, (k) => {
-        res[k] = k
+        res[k] = cart[k]
       })
 
       setCart(res)
