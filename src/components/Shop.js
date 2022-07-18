@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import _forEach from 'lodash/forEach'
 import _filter from 'lodash/filter'
 import _keys from 'lodash/keys'
-import _isEmpty from 'lodash/isEmpty'
 
 import List from './List'
 import Total from './Total'
