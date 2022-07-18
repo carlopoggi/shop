@@ -71,7 +71,7 @@ const Shop = () => {
       })
 
       setCart(res)
-      setTotale(0)
+      return
     }
     setCart({
       ...cart,
@@ -83,9 +83,7 @@ const Shop = () => {
   }
 
   useEffect(() => {
-    if (!_isEmpty(cart)) {
-      updateTotal()
-    }
+    updateTotal()
   }, [cart])
 
   return (
