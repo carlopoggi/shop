@@ -82,7 +82,8 @@ const Shop = () => {
 
   useEffect(() => {
     updateTotal()
-  }, [cartItems, updateTotal])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartItems])
 
   return (
     <>
