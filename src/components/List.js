@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from 'prop-types'
 import _map from 'lodash/map'
 import _keys from 'lodash/keys'
