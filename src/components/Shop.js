@@ -82,7 +82,7 @@ const Shop = () => {
 
   useEffect(() => {
     updateTotal()
-  }, [cartItems])
+  }, [cartItems, updateTotal])
 
   return (
     <>
