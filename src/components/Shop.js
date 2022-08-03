@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import _forEach from 'lodash/forEach'
 import _filter from 'lodash/filter'
 import _keys from 'lodash/keys'
 
+import { addToCartAction, deleteFromCartAction, removeFromCartAction } from '../redux/actions/cart.actions'
+
 import List from './List'
 import Total from './Total'
 
+import { getCartItems } from '../redux/selectors/cart.selectors'
+import { getShopItems } from '../redux/selectors/shop.selectors'
+
 
 const Shop = () => {
-  const [cart, setCart] = useState({})
+  const cartItems = useSelector(getCartItems)
+  const shopItems = useSelector(getShopItems)
+
   const [totale, setTotale] = useState(0)
-  const negozio = {
-    '24242uu': { nome: 'pesca', prezzo: 12 },
-    '3383838': { nome: 'mela', prezzo: 1 },
-    '282737j': { nome: 'banana', prezzo: 2 },
-    '0000222': { nome: 'kiwi', prezzo: 20 },
-    '88822aa': { nome: 'pere', prezzo: 102 }
-  }
-  
-  const getShopItem = (id) => {
-    return negozio[id] || {}
-  }
+  const dispatch = useDispatch()
+
   
   const getCartItem = (id) => {
-    return cart[id] || {}
+    return cartItems[id] || {}
   }
   
   const getCartQty = (id) => {
@@ -35,7 +34,7 @@ const Shop = () => {
   }
 
   const updateTotal = () => {
-    const cartKeys = _keys(cart)
+    const cartKeys = _keys(cartItems)
     let updatedTotal = 0
     _forEach(cartKeys, (currentKey) => {
       const amount = getCartQty(currentKey)
@@ -47,58 +46,54 @@ const Shop = () => {
   }
   
   const onIncrement = (id) => {
-    const currentItem = getShopItem(id)
+    const currentItem = shopItems[id]
     const currentQty = getCartQty(id)
-    setCart({
-      ...cart,
-      [id]: {
-        ...currentItem,
-        qty: currentQty + 1,
-      } 
-    })
+    dispatch(addToCartAction({
+      id,
+      current: currentItem,
+      currentQty,
+    }))
   }
   
   const onDecrement = (id) => {
-    const currentItem = getShopItem(id)
+    const currentItem = getCartItem(id)
     const currentQty = getCartQty(id)
 
     if (currentQty <= 1) {
       const keys = _filter(
-        _keys(cart), (current) => (
+        _keys(cartItems), (current) => (
           current !== id)
         )
       
       let res = {}
       _forEach(keys, (k) => {
-        res[k] = cart[k]
+        res[k] = cartItems[k]
       })
 
-      setCart(res)
+      dispatch(deleteFromCartAction(res))
       return
     }
-    setCart({
-      ...cart,
-      [id]: {
-        ...currentItem,
-        qty: currentQty - 1,
-      } 
-    })
+    dispatch(removeFromCartAction({
+      id,
+      current: currentItem,
+      currentQty,
+    }))
   }
 
   useEffect(() => {
     updateTotal()
-  }, [cart])
+  }, [cartItems])
 
   return (
     <>
       <h1> Shop </h1>
       <List
-        data={negozio}
+        data={shopItems}
         onAdd={onIncrement}
       />
       <h1> Cart </h1>
       <List
-        data={cart}
+        data={cartItems}
         type='cart'
         onIncrement={onIncrement}
         onDecrement={onDecrement}
