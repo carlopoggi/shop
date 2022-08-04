@@ -1,6 +1,10 @@
+import _forEach from 'lodash/forEach'
+import _filter from 'lodash/filter'
+import _keys from 'lodash/keys'
+
 import { CART } from '../actions/cart.actions'
 
-const { ADD, REMOVE, DELETE } = CART
+const { ADD, REMOVE } = CART
 
 const initialState = { }
 
@@ -9,14 +13,27 @@ const cart = (state = initialState, action) => {
   const { id, current, currentQty } = payload
   switch(type) {
     case ADD:
-      return { 
-        ...state,
+      return {
+          ...state, 
           [id]: {
             ...current,
             qty: currentQty + 1,
         }
       }
     case REMOVE:
+      const cartItems = state
+      if (currentQty <= 1) {
+        const keys = _filter(
+          _keys(cartItems), (current) => (
+            current !== id)
+          )
+        let res = {}
+        _forEach(keys, (k) => {
+          res[k] = cartItems[k]
+        })
+  
+        return res
+      }
       return {
         ...state,
           [id]: {
@@ -24,8 +41,6 @@ const cart = (state = initialState, action) => {
             qty: currentQty - 1,
         }
       }
-    case DELETE:
-      return payload
     default:
       return state
   }

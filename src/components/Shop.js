@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import _forEach from 'lodash/forEach'
-import _filter from 'lodash/filter'
-import _keys from 'lodash/keys'
 
-import { addToCartAction, deleteFromCartAction, removeFromCartAction } from '../redux/actions/cart.actions'
+import { addToCartAction, removeFromCartAction } from '../redux/actions/cart.actions'
 
 import List from './List'
 import Total from './Total'
@@ -19,6 +16,7 @@ const Shop = () => {
 
   const [totale, setTotale] = useState(0)
   const dispatch = useDispatch()
+  const addToCart = (payload) => dispatch(addToCartAction(payload))
 
   
   const getCartItem = (id) => {
@@ -46,36 +44,22 @@ const Shop = () => {
   }
   
   const onIncrement = (id) => {
-    const currentItem = shopItems[id]
+    const current = shopItems[id]
     const currentQty = getCartQty(id)
-    dispatch(addToCartAction({
+    const args = {
       id,
-      current: currentItem,
+      current,
       currentQty,
-    }))
+    } 
+    addToCart(args)
   }
   
   const onDecrement = (id) => {
-    const currentItem = getCartItem(id)
-    const currentQty = getCartQty(id)
-
-    if (currentQty <= 1) {
-      const keys = _filter(
-        _keys(cartItems), (current) => (
-          current !== id)
-        )
-      
-      let res = {}
-      _forEach(keys, (k) => {
-        res[k] = cartItems[k]
-      })
-
-      dispatch(deleteFromCartAction(res))
-      return
-    }
+    const current = cartItems[id]
+    const currentQty = current.qty
     dispatch(removeFromCartAction({
       id,
-      current: currentItem,
+      current,
       currentQty,
     }))
   }
