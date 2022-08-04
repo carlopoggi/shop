@@ -1,25 +1,36 @@
-div {
-  border: solid 2px;
- }
+div {}
 
-.scatola {
+.App {
   display: flex;
-  flex-wrap: wrap
+  justify-content: center;
 }
 
- .lista {
+.scatola {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  border: solid 2px;
+}
+
+.row-cart {
+  border: solid 2px;
+}
+
+.shop-list,
+.cart-list {
   flex-grow: 4;
- }
+}
 
- .carrello {
+.carrello {
   flex-grow: 1;
- }
+}
 
- h1 {
+h1 {
   color: black;
   text-align: center;
- }
+}
 
- p {
+p {
   color: black;
- }
+}

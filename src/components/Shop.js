@@ -49,11 +49,14 @@ const Shop = () => {
 
   return (
     <>
+     <div className='scatola'>
       <h1> Shop </h1>
       <List
         data={shopItems}
         onAdd={onIncrement}
       />
+      </div>
+      <div className='scatola'>
       <h1> Cart </h1>
       <List
         data={cartItems}
@@ -62,6 +65,7 @@ const Shop = () => {
         onDecrement={onDecrement}
       />
       <Total />
+    </div>
     </>
   )
 }
