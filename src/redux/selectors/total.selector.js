@@ -1,0 +1,1 @@
+export const getTotal = state => state.total
