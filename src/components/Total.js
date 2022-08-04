@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from 'react-redux'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux'
 import _forEach from 'lodash/forEach'
 import _keys from 'lodash/keys'
 
 import { getCartItems } from '../redux/selectors/cart.selectors'
+import { updateTotalAction } from "../redux/actions/cart.actions";
+import { getTotal } from "../redux/selectors/total.selector";
 
 const Total = () => {
-  const [totale, setTotale] = useState(0)
+  const dispatch = useDispatch()
+  const totale = useSelector(getTotal)
   const cartItems = useSelector(getCartItems)
 
   const getCartItem = (id) => {
@@ -30,7 +33,7 @@ const Total = () => {
       return updatedTotal += amount * price 
     })
 
-    setTotale(updatedTotal)
+    dispatch(updateTotalAction(updatedTotal))
   }
 
   useEffect(() => {
